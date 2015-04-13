@@ -1,0 +1,176 @@
+% \iffalse meta-comment
+% Editorial Notes for LaTeX
+% Copyright (c) 2009 Michael Kohlhase, all rights reserved
+%
+% This file is distributed under the terms of the LaTeX Project Public
+% License from CTAN archives in directory  macros/latex/base/lppl.txt.
+% Either version 1.0 or, at your option, any later version.
+%  
+% The development version of this file can be found at
+% https://github.com/KWARC/LaTeX-bluenote
+% \fi
+% 
+% \iffalse
+%<cls>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%<cls>\ProvidesClass{bluenote}[2012/07/20 v0.2 Blue notes]
+%
+%<*driver>
+\documentclass[twoside]{ltxdoc}
+\DoNotIndex{\def,\long,\edef,\xdef,\gdef,\let,\global}
+\DoNotIndex{\begin,\AtEndDocument,\newcommand,\newcounter,\stepcounter}
+\DoNotIndex{\immediate,\openout,\closeout,\message,\typeout}
+\DoNotIndex{\section,\scshape,\arabic}
+\EnableCrossrefs
+%\CodelineIndex
+%\OnlyDescription
+\RecordChanges
+\usepackage{textcomp,url,a4wide}
+\usepackage[show]{ed}
+\usepackage[eso-foot,today,draft]{svninfo}
+\usepackage{hyperref}
+%\makeindex
+\begin{document}
+\DocInput{bluenote.dtx}
+\end{document}
+%</driver>
+% \fi
+% 
+%\CheckSum{49}
+% 
+% \changes{v0.1}{2012/04/06}{First Version with Documentation}
+% \changes{v0.2}{2012/07/20}{making the group customizable}
+% 
+% \GetFileInfo{bluenote.cls}
+% 
+% \MakeShortVerb{\|}
+% \title{KWARC Blue Notes\thanks{Version {\fileversion} (last revised
+%        {\filedate})}} 
+%    \author{Michael Kohlhase\\
+%            Computer Science, Jacobs University\\
+%            \url{http://kwarc.info/kohlhase}}
+% \maketitle
+%
+% \begin{abstract}
+%   This package provides a tailored document class for KWARC blue notes, a special
+%   document for fixing and discussing $\epsilon$-baked ideas. 
+% \end{abstract}
+%
+% \tableofcontents\newpage
+%
+% \section{Introduction}\label{sec:intro}
+% 
+% Inspired by the ``blue book'' in Alan Bundy's group at the University of Edinburgh,
+% KWARC blue notes are documents used for fixing and discussing $\epsilon$-baked ideas in
+% projects by the KWARC group (see \url{http://kwarc.info}). Unless specified otherwise,
+% they are for project-internal discussions only. 
+% 
+% The |bluenote| class is a specialization of the |article| class with decorations to make
+% the status of being a blue note clear.
+% 
+% The development version of the |bluenote| class can be found at
+% \url{https://github.com/KWARC/LaTeX-bluenote}
+%
+% \section{The User Interface}\label{sec:user-interface}
+% 
+% The |bluenote| class is almost automatic for KWARC, for other projects, we have to 
+% 
+% \subsection{Customizing for other Projects/Groups}
+%
+% The |bluenote| class uses internal macros for the KWARC project name and the KWARC URI,
+% they can be redefined by \DescribeMacro{\blueProject}|\blueProject| and
+% \DescribeMacro{\blueURI}|\blueURI|, e.g. by putting 
+% \begin{verbatim}
+% \blueProject{Foo}
+% \blueURI{http://bar.org/~bar}
+% \end{verbatim}
+% into the document preamble. If the project does not have a URI, this can be specified by
+% the \DescribeMacro{\noblueURI}|\noblueURI| macro.
+%
+% \subsection{Package Options}
+%
+% The |bluenote| class accepts all the options that the |article| class does.
+%
+% \StopEventually{\newpage\PrintChanges}\newpage
+%
+% \section{The Implementation} 
+%
+% The implementation is rather standard. We first set up the options for the package.
+%
+% \subsection{Package Options}
+%
+% We just pass the options to |article.cls|
+%    \begin{macrocode}
+%<*cls>
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\ProcessOptions
+%    \end{macrocode}
+% The next step is to load the packages we want and configure them. 
+%    \begin{macrocode}
+\LoadClass{article}
+\RequirePackage{a4wide}
+\RequirePackage{url}
+\RequirePackage{xspace}
+\RequirePackage{paralist}
+\RequirePackage{draftwatermark}
+\SetWatermarkScale{8}
+\SetWatermarkAngle{50}
+\SetWatermarkText{Blue Note}
+\SetWatermarkFontSize{3cm}
+\SetWatermarkLightness{.8}
+%    \end{macrocode}
+%    This ends the package setup code, so we can come to the implementation of the
+%    functionality of the package. 
+%
+% \subsection{Customization}
+%
+% \begin{macro}{\blueProject}
+%    \begin{macrocode}
+\newcommand\blueProject[1]{\def\blue@project{#1}}
+\blueProject{KWARC}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\noblueURI}
+%    \begin{macrocode}
+\newif\ifblueURI\blueURItrue
+\newcommand\noblueURI{\blueURIfalse}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\blueURI}
+%    \begin{macrocode}
+\newcommand\blueURI{\urldef{\blue@URI}\url}
+\blueURI{http://kwarc.info}
+%    \end{macrocode}
+% \end{macro}
+%
+% \subsection{Title Page}
+%
+% \begin{macro}{\title}
+%    We start with the configuration part, predefining
+%    |\epdnoteshape| to be sans serif. 
+%    \begin{macrocode}
+\def\title#1{\gdef\@title{--- {\blue@project} Blue Note\thanks{Inspired by the ``blue book''
+      in Alan Bundy's group at the University of Edinburgh, {\blue@project} blue notes,
+      are documents used for fixing and discussing $\epsilon$-baked ideas in projects by
+      the {\blue@project} group\ifblueURI\ (see \blue@URI)\fi. Unless specified otherwise, they are for
+      project-internal discussions only. Please only distribute outside the
+      {\blue@project} group after consultation with the author.}\quad ---\\ #1}}
+%</cls>
+%    \end{macrocode}
+% \end{macro}
+% \Finale
+\endinput
+
+% LocalWords:  LPPL dtx ednote ednotes todolist newpart oldpart serif todo ToDo
+% LocalWords:  EdNote BegNP EndNP BegOP EndOP EdNotes MiKo ednotemessage textbf
+% LocalWords:  usepackage kohlhase HeadURL iffalse nomargins edissue maketitle
+% LocalWords:  fileversion textvisiblespace textvisiblespace marginpar newif
+% LocalWords:  DescribeEnv edexplanation edexplanation ednoteshape showednotes
+% LocalWords:  ifshowednotes showednotesfalse ifmargins marginstrue compactenum
+% LocalWords:  showednotestrue marginsfalse xcolor epdnoteshape sffamily endnew
+% LocalWords:  newcounter footnotetext scshape addtocounter footnotemark bgroup
+% LocalWords:  ednotelabel tweaklabel edissuelabel providecommand theednote
+% LocalWords:  newpartlabels newenvironment oldpartlabels todolabel egroup
+% LocalWords:  endcomment endtodo endtodolist ifnum typeout Oldparts
+% LocalWords:  automtatically
