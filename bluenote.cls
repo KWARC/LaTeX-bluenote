@@ -20,7 +20,7 @@
 \SetWatermarkAngle{50}
 \SetWatermarkText{Blue Note}
 \SetWatermarkFontSize{3cm}
-\SetWatermarkLightness{.8}
+\SetWatermarkLightness{.9}
 \newcommand\blueProject[1]{\def\blue@project{#1}}
 \blueProject{KWARC}
 \newif\ifblueURI\blueURItrue
