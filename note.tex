@@ -1,0 +1,51 @@
+\documentclass{bluenote}
+\usepackage[show]{ed}
+\usepackage{listings}
+\lstset{basicstyle=\sf,columns=fullflexible}
+\usepackage[hyperref,backend=bibtex,style=alphabetic]{biblatex}
+\addbibresource{../bibs/kwarcpubs.bib}
+\addbibresource{../bibs/extpubs.bib}
+\addbibresource{../bibs/kwarccrossrefs.bib}
+\addbibresource{../bibs/extcrossrefs.bib}
+\usepackage{hyperref}
+
+\title{Blue Notes -- Writing down $\epsilon$-baked ideas in {\LaTeX}}
+\author{Michael Kohlhase\\
+  Computer Science, FAU Erlangen-N\"urnberg\\
+  \url{http://kwarc.info/kohlhase}}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+  This is a skeleton for a blue note.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+Blue notes are a great way to preserve your ideas. 
+
+\section{Workflow}\label{sec:main}
+
+You choose a repository for your blue notes, e.g. \url{http://gl.kwarc.info/jdoe/blue},
+and make \lstinline|git subrepo|s for the KWARC bibs~\cite{KBibs:on} and the
+\lstinline|bluenote| class~\cite{BlueNote:on}, then you can copy this paper into a subdir
+of \lstinline|blue|, and just start writing. 
+
+It is a good idea to write from the middle (i.e. intro/conclusion last) and use the
+\lstinline[language=TeX]|\ednote| macro~\cite{ed:on} to mark up editorial comments to
+yourself -- e.g. what you still need to introduce for the text to make sense.
+
+\section{Conclusion}\label{sec:concl}
+
+Blue notes are a great way to preserve your ideas. The \lstinline|bluenote| class makes it
+easier for {\LaTeX} users. 
+
+\begin{sloppypar}
+\printbibliography
+\end{sloppypar}
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
