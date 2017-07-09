@@ -4,3 +4,9 @@ auto
 *.glo
 *.out
 *.toc
+*-blx.bib
+*.bbl
+*.blg
+*.pdf
+*.run.xml
+*.synctex.gz
